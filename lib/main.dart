@@ -33,26 +33,28 @@ class MyHomePage extends StatefulWidget {
 }
 
 enum Hand {
-  rock,
-  scissors,
-  paper;
+  top,
+  bottom,
+  right,
+  left;
 
   String get text {
     switch (this) {
-      case Hand.rock:
-        return '👊';
-      case Hand.scissors:
-        return '✌️';
-      case Hand.paper:
-        return '🖐️';
+      case Hand.top:
+        return '👆';
+      case Hand.bottom:
+        return '👇️';
+      case Hand.right:
+        return '👉';
+      case Hand.left:
+        return '👈';
     }
   }
 }
 
 enum Result {
   win,
-  lose,
-  draw;
+  lose;
 
   String get text {
     switch (this) {
@@ -60,8 +62,6 @@ enum Result {
         return '勝ち';
       case Result.lose:
         return '負け';
-      case Result.draw:
-        return 'あいこ';
     }
   }
 }
@@ -71,11 +71,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Hand? computerHand;
   Result? result;
 
-  List<Hand> jankenList = [Hand.rock, Hand.scissors, Hand.paper];
+  List<Hand> jankenList = [Hand.top, Hand.bottom, Hand.right, Hand.left];
 
   void chooseComputerText() {
     final random = Random();
-    final randomNumber = random.nextInt(3);
+    final randomNumber = random.nextInt(4);
     final hand = Hand.values[randomNumber];
     setState((){
       computerHand = hand;
@@ -89,13 +89,13 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     final Result result;
 
-    if(myHand == computerHand) {
-      result = Result.draw;
-    } else if (myHand == Hand.rock && computerHand == Hand.scissors) {
+    if (myHand == Hand.top && computerHand == Hand.top) {
       result = Result.win;
-    } else if (myHand == Hand.scissors && computerHand == Hand.paper) {
+    } else if (myHand == Hand.bottom && computerHand == Hand.bottom) {
       result = Result.win;
-    } else if (myHand == Hand.paper && computerHand == Hand.rock) {
+    } else if (myHand == Hand.right && computerHand == Hand.right) {
+      result = Result.win;
+    } else if (myHand == Hand.left && computerHand == Hand.left) {
       result = Result.win;
     } else {
       result = Result.lose;
@@ -151,32 +151,13 @@ class _MyHomePageState extends State<MyHomePage> {
           FloatingActionButton(
               onPressed: (){
                 setState(() {
-                  myHand = Hand.rock;
+                  myHand = Hand.top;
                 });
                 chooseComputerText();
               },
             tooltip: 'Increment',
             child: const Text(
-                '👊',
-              style: TextStyle(fontSize: 30),
-            ),
-          ),
-
-          
-          const SizedBox(
-            width: 16,
-          ),
-
-          FloatingActionButton(
-            onPressed: (){
-              setState(() {
-                myHand = Hand.scissors;
-              });
-              chooseComputerText();
-            },
-            tooltip: 'Increment',
-            child: const Text(
-              '✌️',
+                '👆',
               style: TextStyle(fontSize: 30),
             ),
           ),
@@ -184,21 +165,54 @@ class _MyHomePageState extends State<MyHomePage> {
           const SizedBox(
             width: 16,
           ),
-
           FloatingActionButton(
             onPressed: (){
               setState(() {
-                myHand = Hand.paper;
+                myHand = Hand.bottom;
               });
               chooseComputerText();
             },
             tooltip: 'Increment',
             child: const Text(
-              '🖐️',
+              '👇',
               style: TextStyle(fontSize: 30),
             ),
           ),
-          //enum ~ start
+
+          const SizedBox(
+            width: 16,
+          ),
+          FloatingActionButton(
+            onPressed: (){
+              setState(() {
+                myHand = Hand.right;
+              });
+              chooseComputerText();
+            },
+            tooltip: 'Increment',
+            child: const Text(
+              '👉',
+              style: TextStyle(fontSize: 30),
+            ),
+          ),
+
+          const SizedBox(
+            width: 16,
+          ),
+          FloatingActionButton(
+            onPressed: (){
+              setState(() {
+                myHand = Hand.left;
+              });
+              chooseComputerText();
+            },
+            tooltip: 'Increment',
+            child: const Text(
+              '👈',
+              style: TextStyle(fontSize: 30),
+            ),
+          ),
+
         ],
       ),
     );
